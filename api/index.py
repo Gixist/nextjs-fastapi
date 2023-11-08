@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
-from pydantic import BaseModel, BaseSettings
+# pydantic-settings 패키지에서 BaseSettings를 가져옵니다.
+from pydantic_settings import BaseSettings
+from pydantic import BaseModel
 from typing import List, Any
 
 # 환경 설정 클래스 정의
@@ -32,7 +34,9 @@ async def read_items():
         items = db.transript.find().limit(5)  # 'collection_name'을 실제 컬렉션 이름인 'transript'로 변경
         return list(items)
     except Exception as e:
-        # 예외 로깅을 추가하는 것이 좋습니다. 예: logging.exception(e)
+        # 예외 로깅을 추가하는 것이 좋습니다.
+        # 로그 설정이 되어있다면, 예외를 로깅합니다.
+        # 예: logging.exception(e)
         return {"error": "Unable to fetch items from the database."}
 
 @app.get("/api/index")
